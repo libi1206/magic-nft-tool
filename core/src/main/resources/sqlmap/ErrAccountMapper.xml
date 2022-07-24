@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libi.dao.ErrAccountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.libi.bean.ErrAccount">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="browser_serial" property="browserSerial" />
+        <result column="twitter_username" property="twitterUsername" />
+        <result column="twitter_password" property="twitterPassword" />
+        <result column="twitter_email" property="twitterEmail" />
+        <result column="twitter_phone" property="twitterPhone" />
+        <result column="twitter_login_status" property="twitterLoginStatus" />
+        <result column="twitter_nickname" property="twitterNickname" />
+        <result column="twitter_bio" property="twitterBio" />
+        <result column="twitter_location" property="twitterLocation" />
+        <result column="twitter_avatar" property="twitterAvatar" />
+        <result column="twitter_bkg" property="twitterBkg" />
+        <result column="twitter_new_username" property="twitterNewUsername" />
+        <result column="twitter_new_password" property="twitterNewPassword" />
+        <result column="twitter_username_status" property="twitterUsernameStatus" />
+        <result column="twitter_password_status" property="twitterPasswordStatus" />
+        <result column="twitter_profile_status" property="twitterProfileStatus" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, browser_serial, twitter_username, twitter_password, twitter_email, twitter_phone, twitter_login_status, twitter_nickname, twitter_bio, twitter_location, twitter_avatar, twitter_bkg, twitter_new_username, twitter_new_password, twitter_username_status, twitter_password_status, twitter_profile_status
+    </sql>
+
+</mapper>

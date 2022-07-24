@@ -20,33 +20,40 @@ public class Main {
     /**
      * 生成路径
      */
-    private static final String outputDir="out";
+    private static final String outputDir = "out";
     /**
      * 表名称
      */
-    private static final String [] tableName= {
-            "student"
+    private static final String[] tableName = {
+            "bak_account",
+            "browser_info",
+            "err_account",
+            "twitter_content",
+            "twitter_info",
+            "twitter_pass",
+            "twitter_publish",
+            "twitter_user_cfg"
     };
 
 
     //数据库配置========
-    private static final String dbUrl="jdbc:mysql://192.168.56.101:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true";
-    private static final String dbDriver="com.mysql.cj.jdbc.Driver";
+    private static final String dbUrl = "jdbc:mysql://137.184.118.155:3306/nft?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true";
+    private static final String dbDriver = "com.mysql.cj.jdbc.Driver";
 
-    private static final String dbUserName="root";
-    private static final String dbPassword="123456";
+    private static final String dbUserName = "root";
+    private static final String dbPassword = "gEqs9.8mPers";
 
-    private static final String devAuthor="libi";
+    private static final String devAuthor = "libi";
 
-    private static final String parentPackage="com.company";
+    private static final String parentPackage = "com.libi";
 
-    private static final String datasourcePackageName="dao";
+    private static final String datasourcePackageName = "dao";
 
     public static void main(String[] args) throws SQLException {
 
         // 1. 全局配置
 
-        GlobalConfig config =new GlobalConfig();
+        GlobalConfig config = new GlobalConfig();
 
         config.setOutputDir(outputDir); //生成路径
         config.setAuthor(devAuthor); //作者
@@ -91,18 +98,15 @@ public class Main {
         stConfig.setInclude(tableName); // 生成的表
 
 
-
-
-
         // 4. 包名策略配置
         PackageConfig pkConfig = new PackageConfig();
         pkConfig.setParent(parentPackage)
-                .setMapper(datasourcePackageName+".mapper")// dao
+                .setMapper(datasourcePackageName + ".mapper")// dao
                 .setService("service")// servcie
                 .setServiceImpl("service.impl")
                 .setController("controller")// controller
-                .setEntity(datasourcePackageName+".bean")
-                .setXml(datasourcePackageName+".sqlmap");// mapper.xml
+                .setEntity(datasourcePackageName + ".bean")
+                .setXml(datasourcePackageName + ".sqlmap");// mapper.xml
 
         // 5. 整合配置
         AutoGenerator ag = new AutoGenerator();

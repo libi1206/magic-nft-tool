@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libi.dao.TwitterUserCfgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.libi.bean.TwitterUserCfg">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="user_data_dir" property="userDataDir" />
+        <result column="max_num" property="maxNum" />
+        <result column="will_switch" property="willSwitch" />
+        <result column="retry_time" property="retryTime" />
+        <result column="twitter_txt" property="twitterTxt" />
+        <result column="twitter_pic" property="twitterPic" />
+        <result column="comment_txt" property="commentTxt" />
+        <result column="quote_txt" property="quoteTxt" />
+        <result column="login_ban" property="loginBan" />
+        <result column="login_valid" property="loginValid" />
+        <result column="login_unlogin" property="loginUnlogin" />
+        <result column="login_blank" property="loginBlank" />
+        <result column="keep_bak" property="keepBak" />
+        <result column="release_ip" property="releaseIp" />
+        <result column="ava_pic" property="avaPic" />
+        <result column="bak_pic" property="bakPic" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, user_data_dir, max_num, will_switch, retry_time, twitter_txt, twitter_pic, comment_txt, quote_txt, login_ban, login_valid, login_unlogin, login_blank, keep_bak, release_ip, ava_pic, bak_pic
+    </sql>
+
+</mapper>

@@ -1,0 +1,16 @@
+package com.libi.dao;
+
+import com.libi.bean.TwitterInfo;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
+ * @author libi
+ * @since 2022-07-24
+ */
+public interface TwitterInfoMapper extends BaseMapper<TwitterInfo> {
+
+}

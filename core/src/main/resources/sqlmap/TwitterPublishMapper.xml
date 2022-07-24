@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libi.dao.TwitterPublishMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.libi.bean.TwitterPublish">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="browser_serial" property="browserSerial" />
+        <result column="twitter_text" property="twitterText" />
+        <result column="twitter_pic" property="twitterPic" />
+        <result column="publish_status" property="publishStatus" />
+        <result column="last_time" property="lastTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, browser_serial, twitter_text, twitter_pic, publish_status, last_time
+    </sql>
+
+</mapper>

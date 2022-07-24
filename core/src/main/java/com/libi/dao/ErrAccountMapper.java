@@ -1,6 +1,6 @@
 package com.libi.dao;
 
-import com.libi.bean.Student;
+import com.libi.bean.ErrAccount;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author libi
- * @since 2022-06-11
+ * @since 2022-07-24
  */
-public interface StudentMapper extends BaseMapper<Student> {
+public interface ErrAccountMapper extends BaseMapper<ErrAccount> {
 
 }

@@ -1,7 +1,7 @@
 package com.libi.service;
 
+import com.libi.bean.ErrAccount;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.libi.bean.Student;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.libi.bean.Student;
  * </p>
  *
  * @author libi
- * @since 2022-06-11
+ * @since 2022-07-24
  */
-public interface StudentService extends IService<Student> {
+public interface ErrAccountService extends IService<ErrAccount> {
 
 }

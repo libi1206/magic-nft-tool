@@ -22,5 +22,13 @@ public final class BaseResultFactory {
         return new BaseResult<T>(code.getCode(), code.getMsg(), data);
     }
 
+    public static <T> BaseResult<T> produceSuccess(T data) {
+        return produceResult(Code.SUCCESS, data);
+    }
+
+    public static BaseResult produceSuccessEmpty() {
+        return produceEmptyResult(Code.SUCCESS);
+    }
+
 
 }

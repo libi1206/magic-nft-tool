@@ -2,10 +2,7 @@ package com.libi.bean;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,24 +14,29 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author libi
- * @since 2022-06-11
+ * @since 2022-07-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Student extends Model<Student> {
+public class TwitterPublish extends Model<TwitterPublish> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String name;
+    private String userId;
 
-    private Integer sex;
+    private String browserSerial;
 
-    @TableField(fill = FieldFill.INSERT)
-    private Date insertTime;
+    private String twitterText;
+
+    private String twitterPic;
+
+    private String publishStatus;
+
+    private String lastTime;
 
 
     @Override
