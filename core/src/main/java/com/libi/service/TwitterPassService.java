@@ -14,4 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface TwitterPassService extends IService<TwitterPass> {
 
     TwitterPass getByMatchCode(String machineCode);
+
+    TwitterPass getByWalletId(String walletId);
+
+    void updateByMachineCode(TwitterPass twitterPass);
+
+    TwitterPass getByMatchCodeAndWalletId(String machineCode, String walletId);
 }

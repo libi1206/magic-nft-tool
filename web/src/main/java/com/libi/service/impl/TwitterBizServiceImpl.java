@@ -18,8 +18,11 @@ public class TwitterBizServiceImpl implements TwitterBizService {
     private TwitterPassService twitterPassService;
 
     @Override
-    public BaseResult<TwitterPassRsp> twitterPass(String machineCode) {
-        TwitterPass twitterPass = twitterPassService.getByMatchCode(machineCode);
+    public BaseResult<TwitterPassRsp> twitterPass(String machineCode, String walletId) {
+        if (ObjectUtils.isEmpty(machineCode) && ObjectUtils.isEmpty(walletId)) {
+            throw new BusinessException(9,"对应的machineCode未找到");
+        }
+        TwitterPass twitterPass = twitterPassService.getByMatchCodeAndWalletId(machineCode, walletId);
         if (ObjectUtils.isEmpty(twitterPass)) {
             throw new BusinessException(9,"对应的machineCode未找到");
         }
@@ -28,9 +31,11 @@ public class TwitterBizServiceImpl implements TwitterBizService {
 
     @Override
     public BaseResult saveTwitterPass(SaveTwitterPassReq reqData) {
-        TwitterPass twitterPass = twitterPassService.getByMatchCode(reqData.getMachineCode());
+        TwitterPass twitterPass = twitterPassService.getByWalletId(reqData.getMachineCode());
         if (!ObjectUtils.isEmpty(twitterPass)) {
-            throw new BusinessException(9, "machineCode已存在");
+            twitterPass.setMachineCode(reqData.getMachineCode());
+            twitterPassService.updateByMachineCode(twitterPass);
+            return BaseResultFactory.produceSuccessEmpty();
         }
         twitterPass = new TwitterPass();
         twitterPass.setWalletId(reqData.getWalletId());

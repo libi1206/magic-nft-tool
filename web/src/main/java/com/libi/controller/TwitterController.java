@@ -19,9 +19,10 @@ public class TwitterController {
 
     @GetMapping("/pass")
     public BaseResult<TwitterPassRsp> twitterPass(
-         @RequestParam String machineCode
+            @RequestParam String machineCode,
+            @RequestParam String walletId
     ){
-        return twitterBizService.twitterPass(machineCode);
+        return twitterBizService.twitterPass(machineCode,walletId);
     }
 
     @PostMapping("/pass")
