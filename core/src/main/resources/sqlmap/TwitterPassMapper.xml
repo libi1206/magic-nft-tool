@@ -4,13 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.libi.bean.TwitterPass">
-        <id column="machine_code" property="machineCode" />
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="remove_tag" property="removeTag" />
+        <result column="machine_code" property="machineCode" />
         <result column="wallet_id" property="walletId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        machine_code, wallet_id
+        id, create_time, update_time, remove_tag, machine_code, wallet_id
     </sql>
 
 </mapper>

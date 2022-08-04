@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author libi
- * @since 2022-07-24
+ * @since 2022-08-04
  */
 public interface TwitterPassMapper extends BaseMapper<TwitterPass> {
 

@@ -25,14 +25,7 @@ public class Main {
      * 表名称
      */
     private static final String[] tableName = {
-            "bak_account",
-            "browser_info",
-            "err_account",
-            "twitter_content",
-            "twitter_info",
-            "twitter_pass",
-            "twitter_publish",
-            "twitter_user_cfg"
+            "twitter_pass"
     };
 
 
@@ -47,7 +40,7 @@ public class Main {
 
     private static final String parentPackage = "com.libi";
 
-    private static final String datasourcePackageName = "dao";
+//    private static final String datasourcePackageName = "";
 
     public static void main(String[] args) throws SQLException {
 
@@ -101,12 +94,12 @@ public class Main {
         // 4. 包名策略配置
         PackageConfig pkConfig = new PackageConfig();
         pkConfig.setParent(parentPackage)
-                .setMapper(datasourcePackageName + ".mapper")// dao
+                .setMapper("dao")// dao
                 .setService("service")// servcie
                 .setServiceImpl("service.impl")
                 .setController("controller")// controller
-                .setEntity(datasourcePackageName + ".bean")
-                .setXml(datasourcePackageName + ".sqlmap");// mapper.xml
+                .setEntity("bean")
+                .setXml("sqlmap");// mapper.xml
 
         // 5. 整合配置
         AutoGenerator ag = new AutoGenerator();

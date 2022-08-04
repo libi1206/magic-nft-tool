@@ -2,12 +2,12 @@ package com.libi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.libi.bean.TwitterPass;
 import com.libi.dao.TwitterPassMapper;
 import com.libi.service.TwitterPassService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import org.springframework.util.ObjectUtils;
  * </p>
  *
  * @author libi
- * @since 2022-07-24
+ * @since 2022-08-04
  */
 @Service
 public class TwitterPassServiceImpl extends ServiceImpl<TwitterPassMapper, TwitterPass> implements TwitterPassService {
