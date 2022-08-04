@@ -82,9 +82,9 @@ public class Main {
         stConfig.setRestControllerStyle(true);
         List<TableFill> tableFillList = new ArrayList<>();
         //需要关注的底层逻辑
-        tableFillList.add(new TableFill("insert_time", FieldFill.INSERT));
-        tableFillList.add(new TableFill("update_time", FieldFill.INSERT_UPDATE));
-        tableFillList.add(new TableFill("operator_name", FieldFill.INSERT_UPDATE));
+//        tableFillList.add(new TableFill("insert_time", FieldFill.INSERT));
+//        tableFillList.add(new TableFill("update_time", FieldFill.INSERT_UPDATE));
+//        tableFillList.add(new TableFill("operator_name", FieldFill.INSERT_UPDATE));
         stConfig.setTableFillList(tableFillList);
         stConfig.setLogicDeleteFieldName("remove_tag");
 
