@@ -42,3 +42,12 @@ mybatis-plus:
       logic-delete-value: 0
       logic-not-delete-value: 1
 
+nft:
+  common:
+    minio-config:
+      end-point: "http://127.0.0.1:9000"
+      access-key: AKIAIOSFODNN7EXAMPLE
+      secret-key: 28e2bb94568945009b02c7a955a15b1f
+      bucket: nft-tool
+      server-url: "http://137.184.118.155:9000"
+

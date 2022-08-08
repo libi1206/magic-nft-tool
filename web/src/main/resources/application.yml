@@ -4,6 +4,11 @@ spring:
 # 所有环境通用的配置，放在这里
   resources:
     add-mappings: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 200MB
+      max-request-size: 200MB
 
 # 使用logback做日志拆分，在服务器上部署时可以按照时间/大小拆分日志，并且可以定时删除以保证日志文件不会沾满服务器空间
 logging:
