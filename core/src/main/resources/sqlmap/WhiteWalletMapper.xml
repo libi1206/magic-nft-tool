@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libi.dao.WhiteWalletMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.libi.bean.WhiteWallet">
+        <id column="id" property="id" />
+        <result column="insert_time" property="insertTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="remove_tag" property="removeTag" />
+        <result column="wallet_id" property="walletId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, insert_time, update_time, remove_tag, wallet_id
+    </sql>
+
+</mapper>
