@@ -39,7 +39,7 @@ public class TwitterBizServiceImpl implements TwitterBizService {
 
     @Override
     public BaseResult saveTwitterPass(SaveTwitterPassReq reqData) {
-        TwitterPass twitterPass = twitterPassService.getByWalletId(reqData.getMachineCode());
+        TwitterPass twitterPass = twitterPassService.getByWalletId(reqData.getWalletId());
         if (!ObjectUtils.isEmpty(twitterPass)) {
             twitterPass.setMachineCode(reqData.getMachineCode());
             twitterPassService.updateByMachineCode(twitterPass);
