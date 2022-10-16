@@ -25,7 +25,7 @@ public class Main {
      * 表名称
      */
     private static final String[] tableName = {
-            "white_wallet"
+            "nft_pass","nft_pass_rank","nft_pass_order"
     };
 
 
