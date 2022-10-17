@@ -5,9 +5,11 @@ import com.libi.Application;
 import com.libi.configurer.properties.WebConfig;
 import com.libi.configurer.properties.model.ChainConfig;
 import com.libi.web3.contract.MyContract;
+import io.reactivex.disposables.Disposable;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.reactivestreams.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -72,5 +74,17 @@ public class TestWeb3 {
         RemoteFunctionCall<String> call3 = myContract.get();
         System.out.println("调用结果3： " + call3.send());
 
+    }
+
+    public void testWallet() {
+        Credentials credentials = Credentials.create("","");
+    }
+
+    public void test(){
+        ChainConfig chainConfig = webConfig.getChainConfig();
+        Web3j web3j = Web3j.build(new HttpService(chainConfig.getChainUrl()));
+        Disposable subscribe = web3j.transactionFlowable().subscribe(tx -> {
+
+        });
     }
 }

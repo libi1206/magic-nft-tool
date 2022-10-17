@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libi.dao.NftPassOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.libi.bean.NftPassOrder">
+        <id column="id" property="id" />
+        <result column="insert_time" property="insertTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="remove_tag" property="removeTag" />
+        <result column="wellet_address" property="welletAddress" />
+        <result column="target_address" property="targetAddress" />
+        <result column="target_num" property="targetNum" />
+        <result column="unit" property="unit" />
+        <result column="status" property="status" />
+        <result column="payed_num" property="payedNum" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, insert_time, update_time, remove_tag, wellet_address, target_address, target_num, unit, status, payed_num
+    </sql>
+
+</mapper>
