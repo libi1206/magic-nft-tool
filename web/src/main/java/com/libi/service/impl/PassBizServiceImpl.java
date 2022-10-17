@@ -13,9 +13,11 @@ import com.libi.service.NftPassRankService;
 import com.libi.service.NftPassService;
 import com.libi.service.PassBizService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PassBizServiceImpl implements PassBizService {
     @Autowired
     private NftPassRankService passRankService;
@@ -36,13 +38,14 @@ public class PassBizServiceImpl implements PassBizService {
     @Override
     public BaseResult<PreOrderRsp> preOrder(PreOrderReq preOrderReq) {
         // 查询rank
-        NftPassRank rank = passRankService.getById(preOrderReq.getRinkId());
+        NftPassRank rank = passRankService.getById(preOrderReq.getRankId());
         // 插入订单
         NftPassOrder order = new NftPassOrder();
         order.setWelletAddress(preOrderReq.getWalletAddress());
         order.setTargetAddress(webConfig.getChainConfig().getTargetAddress());
         order.setTargetNum(rank.getEthNum());
         order.setUnit(rank.getEthUnit());
+        order.setRankId(rank.getId());
         order.setStatus(OrderStatus.CREATE.getCode());
         orderService.save(order);
         PreOrderRsp of = PreOrderRsp.of(order, rank);
