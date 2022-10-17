@@ -1,5 +1,6 @@
 package com.libi.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.libi.bean.NftPassOrder;
 import com.libi.dao.NftPassOrderMapper;
 import com.libi.service.NftPassOrderService;
@@ -17,4 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class NftPassOrderServiceImpl extends ServiceImpl<NftPassOrderMapper, NftPassOrder> implements NftPassOrderService {
 
+    @Override
+    public NftPassOrder selectPayingOrder(String walletAddress) {
+        QueryWrapper<NftPassOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("wellet_address", walletAddress);
+        wrapper.eq("status", 0);
+        wrapper.last("limit 1");
+        return getOne(wrapper);
+    }
 }

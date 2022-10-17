@@ -35,6 +35,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
         <!--swagger-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -67,14 +72,14 @@
                 </configuration>
             </plugin>
 
-<!--            <plugin>-->
-<!--                <groupId>org.web3j</groupId>-->
-<!--                <artifactId>web3j-maven-plugin</artifactId>-->
-<!--                <version>4.8.1</version>-->
-<!--                <configuration>-->
-<!--                    <soliditySourceFiles/>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.web3j</groupId>-->
+            <!--                <artifactId>web3j-maven-plugin</artifactId>-->
+            <!--                <version>4.8.1</version>-->
+            <!--                <configuration>-->
+            <!--                    <soliditySourceFiles/>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 

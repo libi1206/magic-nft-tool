@@ -27,6 +27,7 @@ import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Scanner;
 
 /**
  * @author libi@hyperchain.cn
@@ -80,11 +81,16 @@ public class TestWeb3 {
         Credentials credentials = Credentials.create("","");
     }
 
+    @Test
     public void test(){
         ChainConfig chainConfig = webConfig.getChainConfig();
         Web3j web3j = Web3j.build(new HttpService(chainConfig.getChainUrl()));
         Disposable subscribe = web3j.transactionFlowable().subscribe(tx -> {
-
+            System.out.println(JSON.toJSONString(tx));
+            if (tx.getTo().equalsIgnoreCase("0x90B8F749b34e1223cEd6e3D3C66E518d4a762824")) {
+                System.out.println("bingo!");
+            }
         });
+        new Scanner(System.in).nextInt();
     }
 }

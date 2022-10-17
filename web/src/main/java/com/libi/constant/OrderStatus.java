@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum OrderStatus {
     CREATE(0),
-    PAYING(1),
-    COMPLETED(2)
+    COMPLETED(1),
+    CANCELED(2)
     ;
     private final Integer code;
 

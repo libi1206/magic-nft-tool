@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface NftPassOrderService extends IService<NftPassOrder> {
 
+    /**
+     * 查询还未支付的订单
+     * @param walletAddress
+     * @return
+     */
+    NftPassOrder selectPayingOrder(String walletAddress);
 }
