@@ -21,6 +21,7 @@ public class PassRankRsp {
         return passRankRsp;
     }
 
+    @Data
     public static class Rank{
         private String rankId;
         private String desc;

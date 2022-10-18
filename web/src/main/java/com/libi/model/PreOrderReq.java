@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PreOrderReq {
-    private String rinkId;
+    private String rankId;
     private String walletAddress;
 }
