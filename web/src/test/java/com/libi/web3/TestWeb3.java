@@ -78,11 +78,11 @@ public class TestWeb3 {
     }
 
     public void testWallet() {
-        Credentials credentials = Credentials.create("","");
+        Credentials credentials = Credentials.create("", "");
     }
 
     @Test
-    public void test(){
+    public void test() {
         ChainConfig chainConfig = webConfig.getChainConfig();
         Web3j web3j = Web3j.build(new HttpService(chainConfig.getChainUrl()));
         Disposable subscribe = web3j.transactionFlowable().subscribe(tx -> {
@@ -93,4 +93,5 @@ public class TestWeb3 {
         });
         new Scanner(System.in).nextInt();
     }
+
 }

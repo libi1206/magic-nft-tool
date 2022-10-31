@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Slf4j
@@ -40,7 +41,8 @@ public class PassBizServiceImpl implements PassBizService {
 
     @Override
     public BaseResult<CheckPassRsp> checkPass(CheckPassReq checkPassReq) {
-        NftPass nftPass = nftPassService.queryPass(checkPassReq.getWalletAddress());
+        String walletAddress = checkPassReq.getWalletAddress().toLowerCase();
+        NftPass nftPass = nftPassService.queryPass(walletAddress);
         CheckPassRsp of = CheckPassRsp.of(nftPass);
         return BaseResultFactory.produceSuccess(of);
     }
@@ -51,7 +53,7 @@ public class PassBizServiceImpl implements PassBizService {
         NftPassRank rank = passRankService.getById(preOrderReq.getRankId());
         // 插入订单
         NftPassOrder order = new NftPassOrder();
-        order.setWelletAddress(preOrderReq.getWalletAddress());
+        order.setWelletAddress(preOrderReq.getWalletAddress().toLowerCase());
         order.setTargetAddress(webConfig.getChainConfig().getTargetAddress());
         order.setTargetNum(rank.getEthNum());
         order.setUnit(rank.getEthUnit());
@@ -92,7 +94,7 @@ public class PassBizServiceImpl implements PassBizService {
         BigInteger nowPayed = payed.add(thisPay);
         order.setPayedNum(new BigDecimal(nowPayed));
         order.setUnit(EthUnit.wei.name());
-        if (nowPayed.compareTo(target) > 0) {
+        if (nowPayed.compareTo(target) >= 0) {
             log.info("订单id {} 的订单支付完成，开始发放通行证给 {}", order.getId(), walletAddress);
             order.setStatus(OrderStatus.COMPLETED.getCode());
             // 进行nftPass发放
