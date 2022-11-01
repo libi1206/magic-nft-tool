@@ -29,6 +29,7 @@ public class NftPassServiceImpl extends ServiceImpl<NftPassMapper, NftPass> impl
                         innerWrapper.eq("permanent_tag", 1)
                         .or().ge("limit_time",new Date())
                 );
+        wrapper.orderByDesc("id");
         wrapper.last("limit 1");
         return getOne(wrapper);
     }
