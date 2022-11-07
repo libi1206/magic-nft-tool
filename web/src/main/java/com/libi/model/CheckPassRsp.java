@@ -12,6 +12,7 @@ public class CheckPassRsp {
     private Boolean checkTag;
     private Date expiredIn;
     private Boolean earlyTag;
+
     private String tokenId;
     private String token;
 
@@ -20,15 +21,16 @@ public class CheckPassRsp {
         if (ObjectUtils.isEmpty(nftPass) && ObjectUtils.isEmpty(early)) {
             rsp.checkTag = false;
         } else {
-            rsp.checkTag = true;
             if (!ObjectUtils.isEmpty(early)) {
                 rsp.earlyTag = true;
-            }else {
-                rsp.earlyTag = false;
+            }
+            if (!ObjectUtils.isEmpty(nftPass)) {
+                rsp.checkTag = true;
                 rsp.expiredIn = nftPass.getLimitTime();
 //            rsp.tokenId =;
 //            rsp.token =;
             }
+
         }
         return rsp;
     }
