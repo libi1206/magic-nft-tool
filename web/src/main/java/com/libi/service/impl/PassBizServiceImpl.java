@@ -5,16 +5,14 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.libi.bean.NftPass;
 import com.libi.bean.NftPassOrder;
 import com.libi.bean.NftPassRank;
+import com.libi.bean.WhiteWallet;
 import com.libi.configurer.properties.WebConfig;
 import com.libi.constant.EthUnit;
 import com.libi.constant.OrderStatus;
 import com.libi.model.*;
 import com.libi.response.BaseResult;
 import com.libi.response.BaseResultFactory;
-import com.libi.service.NftPassOrderService;
-import com.libi.service.NftPassRankService;
-import com.libi.service.NftPassService;
-import com.libi.service.PassBizService;
+import com.libi.service.*;
 import com.libi.util.EthUnitUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +35,14 @@ public class PassBizServiceImpl implements PassBizService {
     private NftPassOrderService orderService;
     @Autowired
     private WebConfig webConfig;
+    @Autowired
+    private WhiteWalletService whiteWalletService;
 
     @Override
     public BaseResult<CheckPassRsp> checkPass(CheckPassReq checkPassReq) {
         NftPass nftPass = nftPassService.queryPass(checkPassReq.getWalletAddress());
-        CheckPassRsp of = CheckPassRsp.of(nftPass);
+        WhiteWallet early = whiteWalletService.getByWalletId(checkPassReq.getWalletAddress());
+        CheckPassRsp of = CheckPassRsp.of(nftPass,early);
         return BaseResultFactory.produceSuccess(of);
     }
 
