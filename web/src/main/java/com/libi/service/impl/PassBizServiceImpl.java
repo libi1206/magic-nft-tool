@@ -26,7 +26,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @Slf4j
@@ -54,7 +53,7 @@ public class PassBizServiceImpl implements PassBizService {
         NftPassRank rank = passRankService.getById(preOrderReq.getRankId());
         // 插入订单
         NftPassOrder order = new NftPassOrder();
-        order.setWelletAddress(preOrderReq.getWalletAddress().toLowerCase());
+        order.setWalletAddress(preOrderReq.getWalletAddress().toLowerCase());
         order.setTargetAddress(webConfig.getChainConfig().getTargetAddress());
         order.setTargetNum(rank.getEthNum());
         order.setUnit(rank.getEthUnit());

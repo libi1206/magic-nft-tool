@@ -39,7 +39,7 @@ public class NftPassOrder extends Model<NftPassOrder> {
     /**
      * 用户钱包id
      */
-    private String welletAddress;
+    private String walletAddress;
 
     /**
      * 用户需要想其支付的目标地址
