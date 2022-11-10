@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface NftPassInvitationService extends IService<NftPassInvitation> {
 
+    NftPassInvitation getByWalletAddress(String walletAddress);
+
+    NftPassInvitation getByInvitationCode(String invitationCode);
 }

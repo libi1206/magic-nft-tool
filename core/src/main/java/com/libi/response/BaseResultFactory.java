@@ -26,7 +26,7 @@ public final class BaseResultFactory {
         return produceResult(Code.SUCCESS, data);
     }
 
-    public static BaseResult produceSuccessEmpty() {
+    public static BaseResult<Object> produceSuccessEmpty() {
         return produceEmptyResult(Code.SUCCESS);
     }
 
