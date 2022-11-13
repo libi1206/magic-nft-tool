@@ -41,15 +41,9 @@ public class PassBizServiceImpl implements PassBizService {
 
     @Override
     public BaseResult<CheckPassRsp> checkPass(CheckPassReq checkPassReq) {
-<<<<<<< HEAD
         NftPass nftPass = nftPassService.queryPass(checkPassReq.getWalletAddress());
         WhiteWallet early = whiteWalletService.getByWalletId(checkPassReq.getWalletAddress());
         CheckPassRsp of = CheckPassRsp.of(nftPass,early);
-=======
-        String walletAddress = checkPassReq.getWalletAddress().toLowerCase();
-        NftPass nftPass = nftPassService.queryPass(walletAddress);
-        CheckPassRsp of = CheckPassRsp.of(nftPass);
->>>>>>> 9e025f38f67e0060494663ee942c355971939cf6
         return BaseResultFactory.produceSuccess(of);
     }
 
