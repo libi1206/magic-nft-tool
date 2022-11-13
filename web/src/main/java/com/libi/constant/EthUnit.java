@@ -1,8 +1,5 @@
 package com.libi.constant;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * @author libi@hyperchain.cn
  * @date 2022/10/17 9:35 PM
@@ -10,7 +7,7 @@ import lombok.Getter;
 public enum EthUnit {
     wei,         // wei
     gwei,        // 10^9 wei
-    ether,       // 10^18 wei
+    eth,       // 10^18 wei
     ;
 
     public static EthUnit getByName(String name) {

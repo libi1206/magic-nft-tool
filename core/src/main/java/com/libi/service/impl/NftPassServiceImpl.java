@@ -24,8 +24,12 @@ public class NftPassServiceImpl extends ServiceImpl<NftPassMapper, NftPass> impl
     @Override
     public NftPass queryPass(String walletAddress) {
         QueryWrapper<NftPass> wrapper = new QueryWrapper<>();
-        wrapper.eq("wallet_address", walletAddress);
-        wrapper.eq("permanent_tag", 1).or().ge("limit_time",new Date());
+        wrapper.eq("wallet_address", walletAddress)
+                .and(innerWrapper ->
+                        innerWrapper.eq("permanent_tag", 1)
+                        .or().ge("limit_time",new Date())
+                );
+        wrapper.orderByDesc("id");
         wrapper.last("limit 1");
         return getOne(wrapper);
     }

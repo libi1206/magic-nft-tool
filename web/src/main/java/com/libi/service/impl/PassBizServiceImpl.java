@@ -9,6 +9,7 @@ import com.libi.bean.WhiteWallet;
 import com.libi.configurer.properties.WebConfig;
 import com.libi.constant.EthUnit;
 import com.libi.constant.OrderStatus;
+import com.libi.constant.PassPermanentTag;
 import com.libi.model.*;
 import com.libi.response.BaseResult;
 import com.libi.response.BaseResultFactory;
@@ -40,9 +41,15 @@ public class PassBizServiceImpl implements PassBizService {
 
     @Override
     public BaseResult<CheckPassRsp> checkPass(CheckPassReq checkPassReq) {
+<<<<<<< HEAD
         NftPass nftPass = nftPassService.queryPass(checkPassReq.getWalletAddress());
         WhiteWallet early = whiteWalletService.getByWalletId(checkPassReq.getWalletAddress());
         CheckPassRsp of = CheckPassRsp.of(nftPass,early);
+=======
+        String walletAddress = checkPassReq.getWalletAddress().toLowerCase();
+        NftPass nftPass = nftPassService.queryPass(walletAddress);
+        CheckPassRsp of = CheckPassRsp.of(nftPass);
+>>>>>>> 9e025f38f67e0060494663ee942c355971939cf6
         return BaseResultFactory.produceSuccess(of);
     }
 
@@ -52,7 +59,7 @@ public class PassBizServiceImpl implements PassBizService {
         NftPassRank rank = passRankService.getById(preOrderReq.getRankId());
         // 插入订单
         NftPassOrder order = new NftPassOrder();
-        order.setWelletAddress(preOrderReq.getWalletAddress());
+        order.setWalletAddress(preOrderReq.getWalletAddress().toLowerCase());
         order.setTargetAddress(webConfig.getChainConfig().getTargetAddress());
         order.setTargetNum(rank.getEthNum());
         order.setUnit(rank.getEthUnit());
@@ -80,7 +87,7 @@ public class PassBizServiceImpl implements PassBizService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public NftPassOrder apyOrder(String walletAddress, BigInteger value, String unit) {
+    public NftPassOrder payedAndCheckOrder(String walletAddress, BigInteger value, String unit) {
         NftPassOrder order = orderService.selectPayingOrder(walletAddress);
         if (ObjectUtils.isEmpty(order)) {
             log.warn("没有查询到钱包地址： {} 的相关订单，先暂时忽略", walletAddress);
@@ -93,18 +100,53 @@ public class PassBizServiceImpl implements PassBizService {
         BigInteger nowPayed = payed.add(thisPay);
         order.setPayedNum(new BigDecimal(nowPayed));
         order.setUnit(EthUnit.wei.name());
-        if (nowPayed.compareTo(target) > 0) {
+        if (nowPayed.compareTo(target) >= 0) {
             log.info("订单id {} 的订单支付完成，开始发放通行证给 {}", order.getId(), walletAddress);
+            passExtracted(walletAddress, order.getRankId());
             order.setStatus(OrderStatus.COMPLETED.getCode());
-            // 进行nftPass发放
-            NftPassRank rank = passRankService.getById(order.getRankId());
-            NftPass nftPass = new NftPass();
-            nftPass.setWalletAddress(walletAddress);
-            nftPass.setPermanentTag(rank.getDays() <= 0 ? 1 : 0);
-            nftPass.setLimitTime(DateUtil.offsetDay(new Date(), rank.getDays()));
-            nftPassService.save(nftPass);
         }
         orderService.updateById(order);
         return order;
+    }
+
+    @Override
+    public void passExtracted(String walletAddress, Long rankId) {
+        // 计算时间
+        Date date;
+        // 查询有没有生效中的通行证
+        NftPass oldPass = nftPassService.queryPass(walletAddress);
+        if (ObjectUtils.isEmpty(oldPass) || oldPass.getPermanentTag().equals(PassPermanentTag.PERMANENT.getCode())) {
+            date = new Date();
+        } else {
+            date = oldPass.getLimitTime();
+        }
+
+        // 进行nftPass发放
+        NftPassRank rank = passRankService.getById(rankId);
+        NftPass nftPass = new NftPass();
+        nftPass.setWalletAddress(walletAddress);
+        nftPass.setPermanentTag(rank.getDays() <= 0 ? PassPermanentTag.PERMANENT.getCode() : PassPermanentTag.NORMAL.getCode());
+        nftPass.setLimitTime(DateUtil.offsetDay(date, rank.getDays()));
+        nftPassService.save(nftPass);
+    }
+
+    @Override
+    public void passExtractedByDays(String walletAddress, Integer days) {
+        // 计算时间
+        Date date;
+        // 查询有没有生效中的通行证
+        NftPass oldPass = nftPassService.queryPass(walletAddress);
+        if (ObjectUtils.isEmpty(oldPass) || oldPass.getPermanentTag().equals(PassPermanentTag.PERMANENT.getCode())) {
+            date = new Date();
+        } else {
+            date = oldPass.getLimitTime();
+        }
+
+        // 进行nftPass发放
+        NftPass nftPass = new NftPass();
+        nftPass.setWalletAddress(walletAddress);
+        nftPass.setPermanentTag(PassPermanentTag.NORMAL.getCode());
+        nftPass.setLimitTime(DateUtil.offsetDay(date, days));
+        nftPassService.save(nftPass);
     }
 }

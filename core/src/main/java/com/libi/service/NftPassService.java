@@ -13,5 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface NftPassService extends IService<NftPass> {
 
+    /**
+     * 查询最晚到期的订单
+     * @param walletAddress
+     * @return
+     */
     NftPass queryPass(String walletAddress);
 }

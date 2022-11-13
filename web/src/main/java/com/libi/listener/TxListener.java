@@ -1,5 +1,4 @@
 package com.libi.listener;
-import java.util.Date;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
@@ -36,6 +35,7 @@ public class TxListener implements Consumer<Transaction> {
     public void accept(Transaction transaction) throws Exception {
         if (webConfig.getChainConfig().getTargetAddress().equalsIgnoreCase(transaction.getTo())) {
             log.info("【检测到转账】监测到地址为 {} 的用户像目标账户转账 {} wei", transaction.getFrom(), transaction.getValue());
+            // 存入交易记录
             NftTxRecord nftTxRecord = new NftTxRecord();
             nftTxRecord.setTxHash(transaction.getHash());
             nftTxRecord.setFromAddress(transaction.getFrom());
@@ -44,8 +44,9 @@ public class TxListener implements Consumer<Transaction> {
             nftTxRecord.setEthNum(transaction.getValue().toString());
             nftTxRecord.setEthUnit("wei");
             txRecordService.save(nftTxRecord);
-            NftPassOrder order = passBizService.apyOrder(transaction.getFrom(), transaction.getValue(), "wei");
-            if (ObjectUtils.isEmpty(order)) {
+            // 查询订单，发放通行证
+            NftPassOrder order = passBizService.payedAndCheckOrder(transaction.getFrom(), transaction.getValue(), "wei");
+            if (ObjectUtils.isNotEmpty(order)) {
                 nftTxRecord.setOrderId(order.getId());
                 txRecordService.updateById(nftTxRecord);
             }
