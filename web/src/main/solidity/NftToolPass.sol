@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.0;
 
@@ -25,7 +24,7 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
     /**
      * 需要打款的地址
      */
-    address _targetAddress;
+    address payable _targetAddress;
 
     /**
      * 白名单数组
@@ -36,6 +35,18 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
      * NFT发行最大数量
      */
     uint _limitNumber;
+
+    /**
+     * 用户持有的最大数量
+     */
+    uint _userLimitNumber;
+
+    /**
+     * NFT的默认文件地址
+     */
+    string public baseUrl;
+
+    SaleConfig public saleConfig;
 
     /**
      * 价格配置
@@ -56,26 +67,31 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
      *  设置打钱的账户，发行最大值
      */
     constructor(
-        address targetAddress,
-        uint limitNumber
-    ) ERC721("Nft Tool Pass", "NTP") {
+        address payable targetAddress,
+        string memory baseUrl_,
+        uint limitNumber,
+        uint userLimitNumber
+    ) ERC721("NFT Tool Pass", "NTP") {
         _targetAddress = targetAddress;
         _whiteList = new address[](0);
         _limitNumber = limitNumber;
+        _userLimitNumber = userLimitNumber;
+        baseUrl = baseUrl_;
     }
 
     // ***************************** public方法Start **********************************************
     // Public Mint
     // 公共铸造方法
-    function mint(string memory _tokenUrl)
+    function mint()
     external
     payable
     callerIsUser
     {
         _checkAndAddLimit();
+        _checkNumber();
         uint256 priceWei;
         if (_senderIsWhite()){
-            require(isWhitePublicSaleOn(), "Public sale has not begun yet");
+            require(isWhitePublicSaleOn(), "White list sale has not begun yet");
             priceWei = saleConfig.whitePublicPriceWei;
         } else {
             require(isPublicSaleOn(), "Public sale has not begun yet");
@@ -85,7 +101,7 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
         _tokenId.increment();
         uint _newTokenId = _tokenId.current();
         _safeMint(msg.sender, _newTokenId);
-        _setTokenURI(_newTokenId, _tokenUrl);
+        _setTokenURI(_newTokenId, baseUrl);
 
         _refundIfOver(priceWei);
     }
@@ -109,7 +125,7 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
     view
     returns(bool) {
         require(
-            saleConfig.whitePublicSaleStartTime() != 0,
+            saleConfig.whitePublicSaleStartTime != 0,
             "Public White Sale Time is TBD."
         );
 
@@ -135,7 +151,7 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
     function supportsInterface(bytes4 interfaceId)
     public
     view
-    override(ERC721, ERC721Enumerable)
+    override(ERC721)
     returns (bool)
     {
         return super.supportsInterface(interfaceId);
@@ -165,7 +181,7 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
     /**
      *  销毁一个NFT
      */
-    function burn(uint memory _tokenId)
+    function burn(uint _tokenId)
     public
     onlyOwner
     returns (uint _bornedTokenId)
@@ -187,8 +203,8 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
         saleConfig = SaleConfig(
             publicSaleStartTime,
             publicPriceWei,
-            whitePublicPriceWei,
-            whitePublicSaleStartTime
+            whitePublicSaleStartTime,
+            whitePublicPriceWei
         );
     }
 
@@ -204,7 +220,7 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
     /**
      *  删除白名单
      */
-    function whiteAdd(address delWhite)
+    function whiteDel(address delWhite)
     public
     onlyOwner{
         uint index;
@@ -217,29 +233,27 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
             }
         }
         if(find){
-            for (uint i = index; i<array.length-1; i++){
-                array[i] = array[i+1];
-            }
-            delete array[array.length-1];
-            array.length--;
+            _whiteList[index] = _whiteList[_whiteList.length-1];
+            _whiteList.pop();
         }
     }
 
-    /**
-     *  获取白名单
-     */
-    function getWhiteList()
-    public
-    view
-    onlyOwner
-    returns(address[]){
-        return _whiteList;
-    }
+    // /**
+    //  *  获取白名单
+    //  */
+    // function getWhiteList()
+    // public
+    // view
+    // onlyOwner
+    // returns(address[]){
+    //     address[] memory whiteList = new address[](_whiteList);
+    //     return whiteList;
+    // }
 
     /**
      *  设置打钱的账户
      */
-    function setTargetAddress(address targetAddress)
+    function setTargetAddress(address payable targetAddress)
     public onlyOwner {
         _targetAddress = targetAddress;
     }
@@ -250,6 +264,22 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
     function setLimitNumber(uint limitNumber)
     public onlyOwner {
         _limitNumber = limitNumber;
+    }
+
+    /**
+     * 设置用户拥有的最大数量
+     */
+    function setUserLimitNumber(uint limitNumber)
+    public onlyOwner {
+        _userLimitNumber = limitNumber;
+    }
+
+    /**
+     * 设置Nft的默认url
+     */
+    function setBaseUrl(string memory baseUrl_)
+    public onlyOwner {
+        baseUrl = baseUrl_;
     }
     // ***************************** 管理员方法End **********************************************
 
@@ -295,6 +325,11 @@ contract NftToolPass is ERC721, ERC721URIStorage, Ownable {
         uint current = _tokenNumCounter.current();
         require(current < _limitNumber,"Reached maximum circulation");
         _tokenNumCounter.increment;
+    }
+
+    function _checkNumber() internal{
+        uint balance = balanceOf(msg.sender);
+        require(balance <= _userLimitNumber, "The number of NFTs you have exceeds the limit");
     }
 
     modifier callerIsUser() {

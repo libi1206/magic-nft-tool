@@ -2,7 +2,7 @@
 # 数据源配置，请修改为你项目的实际配置
 spring:
   datasource:
-    url: jdbc:mysql://137.184.118.155:3306/nft?useUnicode=true&characterEncoding=utf8&verifyServerCertificate=false&useSSL=false&useOldAliasMetadataBehavior=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
+    url: jdbc:mysql://8.219.231.172:3306/nft?useUnicode=true&characterEncoding=utf8&verifyServerCertificate=false&useSSL=false&useOldAliasMetadataBehavior=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
     username: root
     password: gEqs9.8mPers
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -52,8 +52,13 @@ nft:
       server-url: "http://137.184.118.155:9000"
   web:
     chain-config:
-      chain-url: "https://goerli.infura.io/v3/27e2a45df8a342829feba9d79ed8a564"
-      admin-account-address: "0xD7c6C3E8afa82dAAbbc67BcBE9524DD108A69982"
-      admin-account-private-key: "ce55f9d0b78995763dd1b9c662415397a865ac3c8c358981a1760524508edbef"
-      contract-address: "0xcA1ca68fD664a3E9F13A03AF2AA8ad8343800Efe"
-      target-address: "0xD7c6C3E8afa82dAAbbc67BcBE9524DD108A69982"
+#      chain-url: "https://goerli.infura.io/v3/27e2a45df8a342829feba9d79ed8a564"
+#      admin-account-address: "0xD7c6C3E8afa82dAAbbc67BcBE9524DD108A69982"
+#      admin-account-private-key: "ce55f9d0b78995763dd1b9c662415397a865ac3c8c358981a1760524508edbef"
+#      contract-address: "0xcA1ca68fD664a3E9F13A03AF2AA8ad8343800Efe"
+#      target-address: "0xD7c6C3E8afa82dAAbbc67BcBE9524DD108A69982"
+      chain-url: "HTTP://127.0.0.1:7545"
+      admin-account-address: "0x07AEEB15b202eeE6Ba1F6A2CcF7972BAC9dbc69B"
+      admin-account-private-key: "e6697e0d8aea813e2fa012a96598ec9ff637927f2f90cca48deaab0466c0b86a"
+      contract-address: "0x7924f1fc278ae398fc3e8e2bf6cc6b33a4544b83"
+      target-address: "0x59557b4EedCfcDad9A57aeD14445E070262501f9"
