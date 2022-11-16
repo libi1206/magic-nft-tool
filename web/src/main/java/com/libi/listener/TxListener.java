@@ -18,9 +18,12 @@ import org.web3j.protocol.core.methods.response.Transaction;
  * @author libi@hyperchain.cn
  * @date 2022/10/17 8:30 PM
  * 交易监听器的内容,监听是否有打款给目标账户的交易，有就对订单进行排查
+ *
+ * 已废弃：不再使用交易监听这种效率低体验差的做法
  */
-@Component
+//@Component
 @Slf4j
+@Deprecated
 public class TxListener implements Consumer<Transaction> {
     @Autowired
     private Web3j web3j;

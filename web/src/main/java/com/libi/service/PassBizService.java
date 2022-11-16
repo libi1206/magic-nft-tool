@@ -41,7 +41,7 @@ public interface PassBizService {
      * @param walletAddress
      * @param value
      * @param unit
-     * @return 如果可以检测到订单
+     * @return 如果可以检测到订单,返回更新后的订单
      */
     NftPassOrder payedAndCheckOrder(String walletAddress, BigInteger value, String unit);
 

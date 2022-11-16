@@ -1,24 +1,28 @@
 package com.libi.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
-import com.libi.bean.NftPass;
-import com.libi.bean.NftPassOrder;
-import com.libi.bean.NftPassRank;
-import com.libi.bean.WhiteWallet;
+import com.libi.bean.*;
 import com.libi.configurer.properties.WebConfig;
 import com.libi.constant.EthUnit;
 import com.libi.constant.OrderStatus;
 import com.libi.constant.PassPermanentTag;
+import com.libi.constent.Code;
+import com.libi.exception.BusinessException;
+import com.libi.manager.ContractManager;
 import com.libi.model.*;
 import com.libi.response.BaseResult;
 import com.libi.response.BaseResultFactory;
 import com.libi.service.*;
 import com.libi.util.EthUnitUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.web3j.protocol.core.methods.response.EthTransaction;
+import org.web3j.protocol.core.methods.response.Transaction;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -38,12 +42,22 @@ public class PassBizServiceImpl implements PassBizService {
     private WebConfig webConfig;
     @Autowired
     private WhiteWalletService whiteWalletService;
+    @Autowired
+    private ContractManager contractManager;
+    @Autowired
+    private NftTxRecordService txRecordService;
+    @Autowired
+    private PassBizService passBizService;
 
+    @SneakyThrows
     @Override
     public BaseResult<CheckPassRsp> checkPass(CheckPassReq checkPassReq) {
+        // 查询数据库，查询订阅和早期用户
         NftPass nftPass = nftPassService.queryPass(checkPassReq.getWalletAddress());
         WhiteWallet early = whiteWalletService.getByWalletId(checkPassReq.getWalletAddress());
-        CheckPassRsp of = CheckPassRsp.of(nftPass,early);
+        // 查询链，查询NFT持有情况
+        BigInteger nftCount = contractManager.getNftToolPass().balanceOf(checkPassReq.getWalletAddress()).send();
+        CheckPassRsp of = CheckPassRsp.of(nftPass, early, nftCount);
         return BaseResultFactory.produceSuccess(of);
     }
 
@@ -65,11 +79,41 @@ public class PassBizServiceImpl implements PassBizService {
     }
 
     @Override
+    @SneakyThrows
+    @Transactional(rollbackFor = Exception.class)
     public BaseResult<TxCheckRsp> txCheck(TxCheckReq txCheckReq) {
         // 查询order
         NftPassOrder order = orderService.getById(txCheckReq.getOrderId());
-        TxCheckRsp rsp = TxCheckRsp.of(order);
-        return BaseResultFactory.produceSuccess(rsp);
+        if (ObjectUtils.isEmpty(order)) {
+            throw new BusinessException(Code.ERROR.getCode(), "Order Not Find");
+        }
+        // 查询交易
+        EthTransaction txRsp = contractManager.getWeb3j().ethGetTransactionByHash(txCheckReq.getTxHash()).send();
+        Transaction transaction = txRsp.getResult();
+        if (ObjectUtils.isEmpty(transaction)) {
+            throw new BusinessException(Code.ERROR.getCode(), "TxHash not find");
+        }
+        // 是否打款到目标用户
+        if (order.getTargetAddress().equalsIgnoreCase(transaction.getTo())) {
+            log.info("【检测到转账】监测到地址为 {} 的用户像目标账户转账 {} wei", transaction.getFrom(), transaction.getValue());
+            // 存入交易记录
+            NftTxRecord nftTxRecord = new NftTxRecord();
+            nftTxRecord.setTxHash(transaction.getHash());
+            nftTxRecord.setFromAddress(transaction.getFrom());
+            nftTxRecord.setToAddress(transaction.getTo());
+            nftTxRecord.setTxJson(JSON.toJSONString(transaction));
+            nftTxRecord.setEthNum(transaction.getValue().toString());
+            nftTxRecord.setEthUnit("wei");
+            txRecordService.save(nftTxRecord);
+            // 查询订单，发放通行证
+            NftPassOrder updatedOrder = passBizService.payedAndCheckOrder(transaction.getFrom(), transaction.getValue(), "wei");
+            if (ObjectUtils.isNotEmpty(updatedOrder)) {
+                order = updatedOrder;
+                nftTxRecord.setOrderId(updatedOrder.getId());
+                txRecordService.updateById(nftTxRecord);
+            }
+        }
+        return BaseResultFactory.produceSuccess(TxCheckRsp.of(order));
     }
 
     @Override
@@ -98,6 +142,9 @@ public class PassBizServiceImpl implements PassBizService {
             log.info("订单id {} 的订单支付完成，开始发放通行证给 {}", order.getId(), walletAddress);
             passExtracted(walletAddress, order.getRankId());
             order.setStatus(OrderStatus.COMPLETED.getCode());
+        } else {
+            BigInteger subtract = target.subtract(nowPayed);
+            log.info("订单id {} 的订单支付了，但是还没有支付完成,还差 {} wei ,钱包ID {}", order.getId(), subtract, walletAddress);
         }
         orderService.updateById(order);
         return order;

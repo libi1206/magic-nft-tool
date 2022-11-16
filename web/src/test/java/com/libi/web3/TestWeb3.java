@@ -17,6 +17,7 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteFunctionCall;
+import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
@@ -52,6 +53,10 @@ public class TestWeb3 {
         Credentials credentials = Credentials.create(chainConfig.getAdminAccountPrivateKey());
         TransactionReceipt send = Transfer.sendFunds(web3j, credentials, "0xBF99220b0C76f59A1922BA339A2CF95f3835AE7f", BigDecimal.ONE, Convert.Unit.ETHER).send();
         System.out.println("发送结果： \n " + JSON.toJSONString(send, true));
+        // 查询交易
+        EthTransaction transaction = web3j.ethGetTransactionByHash("0xa38098b1e5a875feba0e52dcb0369763e0779f133b9c7b51922c8259424e187c").send();
+        System.out.println("发送结果： \n " + JSON.toJSONString(transaction, true));
+        System.out.println("查询交易 " + JSON.toJSONString(transaction.getResult(), true));
     }
 
     @SneakyThrows
