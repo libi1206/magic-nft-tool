@@ -1,0 +1,1 @@
+web3j generate solidity -b web/src/main/solidity/build/NftToolPass.bin -a web/src/main/solidity/build/NftToolPass.abi  -o web/ -p out
