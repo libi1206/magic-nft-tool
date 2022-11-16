@@ -12,8 +12,7 @@ public class CheckPassRsp {
     private Boolean checkTag;
     private Date expiredIn;
     private Boolean earlyTag;
-
-    private String tokenId;
+    private Boolean tokenTag;
     private String token;
 
     public static CheckPassRsp of(NftPass nftPass, WhiteWallet early) {
