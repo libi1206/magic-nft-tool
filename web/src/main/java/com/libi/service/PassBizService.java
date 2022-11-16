@@ -38,12 +38,12 @@ public interface PassBizService {
      * 检测到用户支付
      * 检查用户的订单，进行通行证发放
      *
-     * @param walletAddress
+     * @param order
      * @param value
      * @param unit
      * @return 如果可以检测到订单,返回更新后的订单
      */
-    NftPassOrder payedAndCheckOrder(String walletAddress, BigInteger value, String unit);
+    NftPassOrder payedAndCheckOrder(NftPassOrder order, BigInteger value, String unit);
 
 
     /**

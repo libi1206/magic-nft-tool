@@ -106,7 +106,7 @@ public class PassBizServiceImpl implements PassBizService {
             nftTxRecord.setEthUnit("wei");
             txRecordService.save(nftTxRecord);
             // 查询订单，发放通行证
-            NftPassOrder updatedOrder = passBizService.payedAndCheckOrder(transaction.getFrom(), transaction.getValue(), "wei");
+            NftPassOrder updatedOrder = passBizService.payedAndCheckOrder(order, transaction.getValue(), "wei");
             if (ObjectUtils.isNotEmpty(updatedOrder)) {
                 order = updatedOrder;
                 nftTxRecord.setOrderId(updatedOrder.getId());
@@ -125,11 +125,9 @@ public class PassBizServiceImpl implements PassBizService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public NftPassOrder payedAndCheckOrder(String walletAddress, BigInteger value, String unit) {
-        NftPassOrder order = orderService.selectPayingOrder(walletAddress);
+    public NftPassOrder payedAndCheckOrder(NftPassOrder order, BigInteger value, String unit) {
         if (ObjectUtils.isEmpty(order)) {
-            log.warn("没有查询到钱包地址： {} 的相关订单，先暂时忽略", walletAddress);
-            return null;
+            throw new BusinessException(Code.ERROR.getCode(), "Order Not Find");
         }
         BigInteger payed = EthUnitUtil.castToWei(order.getPayedNum(), order.getUnit());
         BigInteger target = EthUnitUtil.castToWei(order.getTargetNum(), order.getUnit());
@@ -139,12 +137,12 @@ public class PassBizServiceImpl implements PassBizService {
         order.setPayedNum(new BigDecimal(nowPayed));
         order.setUnit(EthUnit.wei.name());
         if (nowPayed.compareTo(target) >= 0) {
-            log.info("订单id {} 的订单支付完成，开始发放通行证给 {}", order.getId(), walletAddress);
-            passExtracted(walletAddress, order.getRankId());
+            log.info("订单id {} 的订单支付完成，开始发放通行证给 {}", order.getId(), order.getWalletAddress());
+            passExtracted(order.getWalletAddress(), order.getRankId());
             order.setStatus(OrderStatus.COMPLETED.getCode());
         } else {
             BigInteger subtract = target.subtract(nowPayed);
-            log.info("订单id {} 的订单支付了，但是还没有支付完成,还差 {} wei ,钱包ID {}", order.getId(), subtract, walletAddress);
+            log.info("订单id {} 的订单支付了，但是还没有支付完成,还差 {} wei ,钱包ID {}", order.getId(), subtract, order.getWalletAddress());
         }
         orderService.updateById(order);
         return order;
