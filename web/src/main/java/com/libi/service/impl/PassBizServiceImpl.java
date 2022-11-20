@@ -56,7 +56,8 @@ public class PassBizServiceImpl implements PassBizService {
         NftPass nftPass = nftPassService.queryPass(checkPassReq.getWalletAddress());
         WhiteWallet early = whiteWalletService.getByWalletId(checkPassReq.getWalletAddress());
         // 查询链，查询NFT持有情况
-        BigInteger nftCount = contractManager.getNftToolPass().balanceOf(checkPassReq.getWalletAddress()).send();
+//        BigInteger nftCount = contractManager.getNftToolPass().balanceOf(checkPassReq.getWalletAddress()).send();
+        BigInteger nftCount = BigInteger.ZERO;
         CheckPassRsp of = CheckPassRsp.of(nftPass, early, nftCount);
         return BaseResultFactory.produceSuccess(of);
     }

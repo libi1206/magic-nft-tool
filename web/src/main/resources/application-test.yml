@@ -52,9 +52,9 @@ nft:
       server-url: "https://autools.io/minio"
   web:
     chain-config:
-      chain-url: "https://goerli.infura.io/v3/27e2a45df8a342829feba9d79ed8a564"
-      admin-account-address: "0xD7c6C3E8afa82dAAbbc67BcBE9524DD108A69982"
-      admin-account-private-key: "ce55f9d0b78995763dd1b9c662415397a865ac3c8c358981a1760524508edbef"
-      contract-address: "0xcA1ca68fD664a3E9F13A03AF2AA8ad8343800Efe"
-      target-address: "0xD7c6C3E8afa82dAAbbc67BcBE9524DD108A69982"
+      chain-url: "http://127.0.0.1:9090"
+      admin-account-address: "0x1fB8743F8E8Ef7864fc1540A8900CAc767465C60"
+      admin-account-private-key: "0x2352956032ca0801cf2ae209a801a3160080941bb35feb1cbfdfd866ce5f0bf5"
+      contract-address: "0x5349aa8f5e27db7a84166ee6ecda5c54d9c35fde"
+      target-address: "0x9F7f497465d19B79302E930c03E9e8b10deF724D"
 

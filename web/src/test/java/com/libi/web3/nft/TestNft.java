@@ -18,6 +18,7 @@ import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteFunctionCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.tx.gas.StaticGasProvider;
 
 import java.math.BigInteger;
@@ -40,7 +41,7 @@ public class TestNft {
         Web3j web3j = Web3j.build(new HttpService(chainConfig.getChainUrl()));
         Credentials credentials = Credentials.create(chainConfig.getAdminAccountPrivateKey());
         // 部署
-        RemoteCall<NftToolPass> deploy = NftToolPass.deploy(web3j, credentials, new StaticGasProvider(BigInteger.valueOf(1L), BigInteger.valueOf(6721975)),
+        RemoteCall<NftToolPass> deploy = NftToolPass.deploy(web3j, credentials, new StaticGasProvider(BigInteger.valueOf(20000000000L), BigInteger.valueOf(6721975L)),
                 webConfig.getChainConfig().getTargetAddress(),
                 "https://www.baidu.com",
                 BigInteger.valueOf(100L),

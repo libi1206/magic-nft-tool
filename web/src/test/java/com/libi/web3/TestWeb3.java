@@ -51,10 +51,10 @@ public class TestWeb3 {
         System.out.println(ver.getWeb3ClientVersion());
         // 发送以太币交易
         Credentials credentials = Credentials.create(chainConfig.getAdminAccountPrivateKey());
-        TransactionReceipt send = Transfer.sendFunds(web3j, credentials, "0xBF99220b0C76f59A1922BA339A2CF95f3835AE7f", BigDecimal.ONE, Convert.Unit.ETHER).send();
+        TransactionReceipt send = Transfer.sendFunds(web3j, credentials, "0x0aee6cbd5daf508731e3e3b5f2a0b3b3e9fe9b3d", BigDecimal.ONE, Convert.Unit.ETHER).send();
         System.out.println("发送结果： \n " + JSON.toJSONString(send, true));
         // 查询交易
-        EthTransaction transaction = web3j.ethGetTransactionByHash("0xa38098b1e5a875feba0e52dcb0369763e0779f133b9c7b51922c8259424e187c").send();
+        EthTransaction transaction = web3j.ethGetTransactionByHash(send.getTransactionHash()).send();
         System.out.println("发送结果： \n " + JSON.toJSONString(transaction, true));
         System.out.println("查询交易 " + JSON.toJSONString(transaction.getResult(), true));
     }

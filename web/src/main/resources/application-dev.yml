@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://8.219.231.172:3306/nft?useUnicode=true&characterEncoding=utf8&verifyServerCertificate=false&useSSL=false&useOldAliasMetadataBehavior=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
     username: root
-    password: gEqs9.8mPers
+    password: 20-20000Hz
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       stat-view-servlet:
@@ -45,20 +45,21 @@ mybatis-plus:
 nft:
   common:
     minio-config:
-      end-point: "http://137.184.118.155:9000"
+      end-point: "http://8.219.231.172:9000"
       access-key: AKIAIOSFODNN7EXAMPLE
       secret-key: 28e2bb94568945009b02c7a955a15b1f
       bucket: nft-tool
-      server-url: "http://137.184.118.155:9000"
+      server-url: "http://8.219.231.172:9000"
   web:
     chain-config:
 #      chain-url: "https://goerli.infura.io/v3/27e2a45df8a342829feba9d79ed8a564"
-#      admin-account-address: "0xD7c6C3E8afa82dAAbbc67BcBE9524DD108A69982"
-#      admin-account-private-key: "ce55f9d0b78995763dd1b9c662415397a865ac3c8c358981a1760524508edbef"
+#      admin-account-address: "0xE30B579B61B4f0C4762aB93742B258f873789805"
+#      admin-account-private-key: "626b5aa28aacfd5ac77467d18432bf01de0edbf17d9d8b30e64c9d3cfd5cd274"
 #      contract-address: "0xcA1ca68fD664a3E9F13A03AF2AA8ad8343800Efe"
 #      target-address: "0xD7c6C3E8afa82dAAbbc67BcBE9524DD108A69982"
-      chain-url: "HTTP://127.0.0.1:7545"
-      admin-account-address: "0x9929af37086cA7633a604E25f376e928c1713C21"
-      admin-account-private-key: "fadfa280e3ce319f0e290174796a187d3d913b4da3dc7311a376039895a0e11f"
-      contract-address: "0x7924f1fc278ae398fc3e8e2bf6cc6b33a4544b83"
-      target-address: "0xcBB571E6c81e6121101d335d7AA06243A10068E4"
+
+      chain-url: "http://8.219.231.172:9090"
+      admin-account-address: "0x1fB8743F8E8Ef7864fc1540A8900CAc767465C60"
+      admin-account-private-key: "0x2352956032ca0801cf2ae209a801a3160080941bb35feb1cbfdfd866ce5f0bf5"
+      contract-address: "0x5349aa8f5e27db7a84166ee6ecda5c54d9c35fde"
+      target-address: "0x9F7f497465d19B79302E930c03E9e8b10deF724D"
