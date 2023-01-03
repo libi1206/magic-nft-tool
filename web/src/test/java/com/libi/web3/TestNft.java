@@ -1,4 +1,4 @@
-package com.libi.web3.nft;
+package com.libi.web3;
 
 import com.alibaba.fastjson.JSON;
 import com.libi.Application;
